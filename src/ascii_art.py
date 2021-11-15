@@ -39,6 +39,17 @@ def rgb_to_brightness():
         list_of_brightness.append(temporay_list[i:i+image.width])
     return list_of_brightness
 
+def create_ascii_art():
+    '''Turning brightness values into an ASCII strings. An print it out.'''
+    for br in rgb_to_brightness():
+        for x in br:
+            x = (x * len(ASCII_CHARS)) // 255
+            ascii_val = ASCII_CHARS[x]
+            print(ascii_val, end=' ')
+        # Printing new line is necessary for this method. Otherwise, the image
+        # doesn't look like as expected.
+        print("\n")
+
 
 #* Get pixel data (Second Method)
 # def get_pixel_data_2():
@@ -64,5 +75,6 @@ def rgb_to_brightness():
 
 get_pixel_data()
 rgb_to_brightness()
+create_ascii_art()
 # get_pixel_data_2()
 # put_pixels()
