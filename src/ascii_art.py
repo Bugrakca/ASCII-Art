@@ -1,9 +1,10 @@
 from PIL import Image
 
 
-file_path = "images/ww.jpg"
+file_path = "images/deneme.jpg"
 
-ASCII_CHARS = '`.,:irs?@9B&#$'
+ASCII_CHARS = ' .,:°*oO&$'
+MAX_PIXEL_VALUE = 256
 
 
 # Open an image as image object
@@ -43,7 +44,7 @@ def create_ascii_art():
     '''Turning brightness values into an ASCII strings. An print it out.'''
     for br in rgb_to_brightness():
         for x in br:
-            x = (x * len(ASCII_CHARS)) // 255
+            x = ((x * len(ASCII_CHARS) // MAX_PIXEL_VALUE))
             ascii_val = ASCII_CHARS[x]
             print(ascii_val, end=' ')
         # Printing new line is necessary for this method. Otherwise, the image
