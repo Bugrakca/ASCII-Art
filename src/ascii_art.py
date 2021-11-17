@@ -1,7 +1,7 @@
 from PIL import Image
 
 
-file_path = "images/deneme.jpg"
+file_path = "images/ww.jpg"
 
 ASCII_CHARS = ' .,:°*oO&$'
 MAX_PIXEL_VALUE = 256
@@ -46,7 +46,7 @@ def create_ascii_art():
         for x in br:
             x = ((x * len(ASCII_CHARS) // MAX_PIXEL_VALUE))
             ascii_val = ASCII_CHARS[x]
-            print(ascii_val, end=' ')
+            print(ascii_val, end='  ') # I added two spaces between the characters so that the image doesn't look squashed.
         # Printing new line is necessary for this method. Otherwise, the image
         # doesn't look like as expected.
         print("\n")
@@ -68,10 +68,10 @@ def create_ascii_art():
 #     pixel data. Then display the image with OS default application.'''
 #     put_pixel_data = list()
 #     im = Image.new("RGB", (image.width, image.height))
-#     for pixels in get_pixel_data_2():
+#     for pixels in rgb_to_brightness():
 #         for pixel in pixels:
 #             put_pixel_data.append(pixel)
-#     im.putdata(get_pixel_data_2())
+#     im.putdata(put_pixel_data)
 #     im.show()
 
 get_pixel_data()
