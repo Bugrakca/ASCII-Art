@@ -1,4 +1,5 @@
 from PIL import Image
+from colorama import Fore
 
 
 file_path = "images/ww.jpg"
@@ -40,13 +41,13 @@ def rgb_to_brightness():
         list_of_brightness.append(temporay_list[i:i+image.width])
     return list_of_brightness
 
-def create_ascii_art():
+def create_ascii_art(color = Fore.WHITE):
     '''Turning brightness values into an ASCII strings. An print it out.'''
     for br in rgb_to_brightness():
         for x in br:
             x = ((x * len(ASCII_CHARS) // MAX_PIXEL_VALUE))
             ascii_val = ASCII_CHARS[x]
-            print(ascii_val, end='  ') # I added two spaces between the characters so that the image doesn't look squashed.
+            print(color + ascii_val, end='  ') # I added two spaces between the characters so that the image doesn't look squashed.
         # Printing new line is necessary for this method. Otherwise, the image
         # doesn't look like as expected.
         print("\n")
