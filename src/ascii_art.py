@@ -29,14 +29,21 @@ def get_pixel_data():
     return all_pixels
 
 #* Convert RGB pixel data to Brightness value
-def rgb_to_brightness():
+def rgb_to_brightness(algo = "avarage"):
     '''Converting RGB pixel data to brightness values'''
     list_of_brightness = list()
     temporay_list = list()
     for in_list in get_pixel_data():
         for tuple in in_list:
-            tuple = (tuple[0]+tuple[1]+tuple[2]) // 3
-            temporay_list.append(tuple)
+            if algo == "avarage":
+                tuple = (tuple[0]+tuple[1]+tuple[2]) // 3
+                temporay_list.append(tuple)
+            if algo == "luminosity":
+                tuple = (0.21 * tuple[0]) + (0.72 * tuple[1]) + (0.07 * tuple[2])
+                temporay_list.append(tuple)
+            if algo == "lightness":
+                tuple = (max(tuple[0], tuple[1], tuple[2]) + min(tuple[0], tuple[1], tuple[2])) / 2
+                temporay_list.append(tuple)
     for i in range(0, len(temporay_list), image.width):
         list_of_brightness.append(temporay_list[i:i+image.width])
     return list_of_brightness
@@ -76,7 +83,7 @@ def create_ascii_art(color = Fore.WHITE):
 #     im.show()
 
 get_pixel_data()
-rgb_to_brightness()
+rgb_to_brightness(algo = "brightness")
 create_ascii_art()
 # get_pixel_data_2()
 # put_pixels()
