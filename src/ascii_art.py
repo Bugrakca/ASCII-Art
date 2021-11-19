@@ -1,5 +1,6 @@
 from PIL import Image
 from colorama import Fore
+from sty import fg
 
 # Get the file path
 file_path = "images/ww.jpg"
@@ -59,25 +60,31 @@ def invert_brightness(brightness_values = rgb_to_brightness()):
 
 def create_ascii_art(color = Fore.WHITE):
     '''Turning brightness values into an ASCII strings. An print it out.'''
-    for br in invert_brightness():
+    j = 0
+    for br in rgb_to_brightness():
         for x in br:
             x = ((x * len(ASCII_CHARS) // MAX_PIXEL_VALUE)) # I divide 256 because the pixel values is 0-255 with zero included. That is give me a 256.
             ascii_val = ASCII_CHARS[x]
-            print(color + ascii_val, end='  ') # I added two spaces between the characters so that the image doesn't look squashed.
+            # Pring the half of image with RGB colors
+            if j <= (len(br) ** 2) // 2.8 :
+                print(fg(pixel_data_2[j][0], pixel_data_2[j][1], pixel_data_2[j][2]) + ascii_val + fg.rs, end='  ')
+                j += 1
+            # I added two spaces between the characters so that the image doesn't look squashed.
+            else:
+                print(color + ascii_val, end='  ')
         # Printing new line is necessary for this method. Otherwise, the image
         # doesn't look like as expected.
         print("\n")
 
-
+pixel_data_2 = list()
 #* Get pixel data (Second Method)
-# def get_pixel_data_2():
-#     '''Getting a pixel data from load() method.'''
-#     pixel_data = list()
-#     image_data = image.load()
-#     for y in range(image.height):
-#         for x in range(image.width):
-#             pixel_data.append(image_data[x,y])
-#     return pixel_data
+def get_pixel_data_2():
+    '''Getting a pixel data from load() method.'''
+    image_data = image.load()
+    for y in range(image.height):
+        for x in range(image.width):
+            pixel_data_2.append(image_data[x,y])
+    return pixel_data_2
 
 #* Create an image with a list of pixel data
 # def put_pixels():
@@ -92,8 +99,8 @@ def create_ascii_art(color = Fore.WHITE):
 #     im.show()
 
 get_pixel_data()
+get_pixel_data_2()
 # rgb_to_brightness(algo = "luminosity")
 invert_brightness(rgb_to_brightness(algo = "luminosity"))
 create_ascii_art()
-# get_pixel_data_2()
 # put_pixels()
