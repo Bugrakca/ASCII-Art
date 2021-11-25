@@ -19,15 +19,15 @@ print(image.format, image.size, image.mode)
 print(f"Image size: {image.size}")
 
 #* Get pixel data (First Method)
-def get_pixel_data():
-    '''Getting a pixel data from getdata() method.
-    Get data method has to be turned into an array.'''
+def get_pixel_data(width):
+    '''Getting a pixel data from getdata() method and placing that data into
+    all_pixels 2d list variable'''
     all_pixels = list()
     pixels = list(image.getdata())
     # List comprehension
     # all_pixels = [pixels[i:i+image.width] for i in range(0, len(pixels), image.width)]
-    for x in range(0, len(pixels), image.width):
-        all_pixels.append(pixels[x:x+image.width])
+    for x in range(0, len(pixels), width):
+        all_pixels.append(pixels[x:x+width])
     return all_pixels
 
 #* Convert RGB pixel data to Brightness value with different algorithms
@@ -35,7 +35,7 @@ def rgb_to_brightness(algo = "avarage", ):
     '''Converting RGB pixel data to brightness values'''
     list_of_brightness = list()
     temporary_list = list()
-    for in_list in get_pixel_data():
+    for in_list in get_pixel_data(image.width):
         for tuple in in_list:
             if algo == "avarage": # Avarage Algorithm
                 tuple = round((tuple[0]+tuple[1]+tuple[2]) // 3)
@@ -51,14 +51,14 @@ def rgb_to_brightness(algo = "avarage", ):
         list_of_brightness.append(temporary_list[i:i+image.width])
     return list_of_brightness
 
-def invert_brightness(brightness_values = rgb_to_brightness()):
+def invert_brightness(brightness_values):
     '''Inverting the brightness values'''
     inverted_brightness_values = list()
     for inverted in brightness_values:
         inverted_brightness_values.append([MAX_PIXEL_VALUE - x for x in inverted])
     return inverted_brightness_values
 
-def create_ascii_art(color = Fore.WHITE):
+def create_ascii_art(pixel_data, color = Fore.WHITE):
     '''Turning brightness values into an ASCII strings. An print it out.'''
     j = 0
     for br in rgb_to_brightness():
@@ -67,7 +67,7 @@ def create_ascii_art(color = Fore.WHITE):
             ascii_val = ASCII_CHARS[x]
             # Pring the half of image with RGB colors
             if j <= (len(br) ** 2) // 2.8 :
-                print(fg(pixel_data_2[j][0], pixel_data_2[j][1], pixel_data_2[j][2]) + ascii_val + fg.rs, end='  ')
+                print(fg(pixel_data[j][0], pixel_data[j][1], pixel_data[j][2]) + ascii_val + fg.rs, end='  ')
                 j += 1
             # I added two spaces between the characters so that the image doesn't look squashed.
             else:
@@ -76,11 +76,11 @@ def create_ascii_art(color = Fore.WHITE):
         # doesn't look like as expected.
         print("\n")
 
-pixel_data_2 = list()
 #* Get pixel data (Second Method)
 def get_pixel_data_2():
     '''Getting a pixel data from load() method.'''
     image_data = image.load()
+    pixel_data_2 = list()
     for y in range(image.height):
         for x in range(image.width):
             pixel_data_2.append(image_data[x,y])
@@ -98,9 +98,9 @@ def get_pixel_data_2():
 #     im.putdata(put_pixel_data)
 #     im.show()
 
-get_pixel_data()
+get_pixel_data(image.width)
 get_pixel_data_2()
 # rgb_to_brightness(algo = "luminosity")
 invert_brightness(rgb_to_brightness(algo = "luminosity"))
-create_ascii_art()
+create_ascii_art(pixel_data=get_pixel_data_2())
 # put_pixels()
